@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
@@ -20,6 +21,7 @@ namespace EOLChecker
             // Width = 700
             // Height = 338
             InitializeComponent();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             this.StartPosition = FormStartPosition.CenterScreen;
             ckEOLOption.ItemCheck += CheckedListBox_ItemCheck;
             Resize += Form1_SizeChanged;
@@ -146,15 +148,18 @@ namespace EOLChecker
                 // Xử lý kết quả của Form Dialog nếu cần thiết
                 if (result == DialogResult.OK)
                 {
-                    List<FilesReplaceInfo> filesReplaceInfos = EOL_Checker.GetFilesReplaceInfoList();
-                    foreach (FilesReplaceInfo filesReplaceInfo in filesReplaceInfos)
+                    if (dialog.LineEndingUser != LineEnding.None)
                     {
-                        bResult = EOL_Checker.ReplaceLineEnding(filesReplaceInfo, EOL_Checker.LineEnding, dialog.LineEndingUser);
-                        if (bResult)
+                        List<FilesReplaceInfo> filesReplaceInfos = EOL_Checker.GetFilesReplaceInfoList();
+                        foreach (FilesReplaceInfo filesReplaceInfo in filesReplaceInfos)
                         {
-                            strResult = strResult + Environment.NewLine + filesReplaceInfo.FilePathReplace;
+                            bResult = EOL_Checker.ReplaceLineEnding(filesReplaceInfo, EOL_Checker.LineEnding, dialog.LineEndingUser);
+                            if (bResult)
+                            {
+                                strResult = strResult + Environment.NewLine + filesReplaceInfo.FilePathReplace;
+                            }
                         }
-                    }
+                    }    
                 }
             }
             if (bResult)

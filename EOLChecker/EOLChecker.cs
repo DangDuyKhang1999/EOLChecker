@@ -1,4 +1,4 @@
-﻿
+﻿using System.Text;
 using static EOLChecker.Form1;
 
 namespace EOLChecker
@@ -103,7 +103,7 @@ namespace EOLChecker
             switch (LineEnding)
             {
                 case LineEnding.CRLF:
-                    using (StreamReader reader = new(filePath))
+                    using (StreamReader reader = new(filePath, Encoding.GetEncoding(932)))
                     {
                         int lineCount = 0;
                         int previousChar = '\0';
@@ -148,12 +148,12 @@ namespace EOLChecker
                 case LineEnding.CR: //CR (\r) = 13
                     string content = String.Empty;
                     int lastindex = -99;
-                    using (StreamReader readerLength = new(filePath))
+                    using (StreamReader readerLength = new(filePath, Encoding.GetEncoding(932)))
                     {
                         content = readerLength.ReadToEnd();
                         lastindex = content.Length;
                     }
-                    using (StreamReader reader = new(filePath))
+                    using (StreamReader reader = new(filePath, Encoding.GetEncoding(932)))
                     {
                         int lineCount = 0;
                         int previousChar = '\0';
@@ -207,7 +207,7 @@ namespace EOLChecker
                     break;
 
                 case LineEnding.LF: //LF (\n) = 10
-                    using (StreamReader reader = new(filePath))
+                    using (StreamReader reader = new(filePath, Encoding.GetEncoding(932)))
                     {
                         int lineCount = 0;
                         int previousChar = '\0';
@@ -297,7 +297,7 @@ namespace EOLChecker
             return bResult;
         }
 
-        static bool ConvertLineEnding(string filePath, LineEnding lineEndingAter, int replacePosition)
+        static bool ConvertLineEnding(string filePath, LineEnding lineEndingAfter, int replacePosition)
         {
             bool bResult = false;
             try
@@ -311,7 +311,7 @@ namespace EOLChecker
                 }
 
                 // Translate the desired line ending to string
-                string translatedLineEnding = TranslateLineEnding(lineEndingAter);
+                string translatedLineEnding = TranslateLineEnding(lineEndingAfter);
 
                 // Convert the content to a char array
                 char[] contentArray = content.ToCharArray();
@@ -323,7 +323,7 @@ namespace EOLChecker
                 }
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using (StreamWriter writer = new StreamWriter(filePath, false)) // Mở tệp tin để ghi (overwrite)
+                using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(932))) // Mở tệp tin để ghi (overwrite)
                 {
                     writer.Write(new string(contentArray));
                     bResult = true;
@@ -335,22 +335,21 @@ namespace EOLChecker
             }
             return bResult;
         }
-        static bool ConvertLineEndingCRLFToNew(string filePath, LineEnding lineEndingAter, int replacePosition)
+        static bool ConvertLineEndingCRLFToNew(string filePath, LineEnding lineEndingAfter, int replacePosition)
         {
             bool bResult = false;
             try
             {
                 string content;
                 // Sử dụng StreamReader để đọc từ tệp tin
-                using (StreamReader reader = new StreamReader(filePath))
+                using (StreamReader reader = new StreamReader(filePath, Encoding.GetEncoding(932)))
                 {
                     content = reader.ReadToEnd();
                 }
-
                 // Convert the content to a char array
                 char[] contentArray = content.ToCharArray();
                 int indexToRemove;
-                if (lineEndingAter == LineEnding.CR)
+                if (lineEndingAfter == LineEnding.CR)
                 {
                     indexToRemove = replacePosition;
                 }
@@ -366,7 +365,7 @@ namespace EOLChecker
                 Array.Copy(contentArray, indexToRemove + numberOfElementsToRemove, newArray, indexToRemove, contentArray.Length - indexToRemove - numberOfElementsToRemove);
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using (StreamWriter writer = new StreamWriter(filePath, false)) // Mở tệp tin để ghi (overwrite)
+                using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(932))) // Mở tệp tin để ghi (overwrite)
                 {
                     writer.Write(new string(newArray));
                     bResult = true;
@@ -378,7 +377,6 @@ namespace EOLChecker
             }
             return bResult;
         }
-
         static bool ConvertLineEndingToCRLF(string filePath, LineEnding lineEndingBefore, int replacePosition)
         {
             bool bResult = false;
@@ -398,7 +396,7 @@ namespace EOLChecker
             {
                 string content;
                 // Sử dụng StreamReader để đọc từ tệp tin
-                using (StreamReader reader = new StreamReader(filePath))
+                using (StreamReader reader = new StreamReader(filePath, Encoding.GetEncoding(932)))
                 {
                     content = reader.ReadToEnd();
                 }
@@ -421,7 +419,7 @@ namespace EOLChecker
 
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using (StreamWriter writer = new StreamWriter(filePath, false)) // Mở tệp tin để ghi (overwrite)
+                using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(932))) // Mở tệp tin để ghi (overwrite)
                 {
                     writer.Write(new string(newArray));
                     bResult = true;
