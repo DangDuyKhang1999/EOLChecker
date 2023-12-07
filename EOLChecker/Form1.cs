@@ -97,7 +97,7 @@ namespace EOLChecker
                     }
                     else
                     {
-                        MessageBox.Show("The directory does not have any .h, .cpp, or .cs files!!!", "Error!!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("The directory does not have any .h, .cpp, or .cs files!!!", "Information!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         btnBrowser.Focus();
                     }
                 }
