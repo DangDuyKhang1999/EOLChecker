@@ -33,7 +33,7 @@ namespace EOLChecker
         {
             btnBrowser = new Button();
             txtBrowser = new TextBox();
-            rtxtResult = new RichTextBox();
+            tableLayoutPanel = new TableLayoutPanel();
             btnStartCheck = new Button();
             ckEOLOption = new CheckedListBox();
             btnReplace = new Button();
@@ -46,10 +46,9 @@ namespace EOLChecker
             btnBrowser.FlatAppearance.BorderColor = Color.FromArgb(137, 190, 179);
             btnBrowser.FlatStyle = FlatStyle.Flat;
             btnBrowser.ForeColor = Color.Black;
-            btnBrowser.Location = new Point(607, 2);
-            btnBrowser.Margin = new Padding(3, 2, 3, 2);
+            btnBrowser.Location = new Point(694, 3);
             btnBrowser.Name = "btnBrowser";
-            btnBrowser.Size = new Size(88, 30);
+            btnBrowser.Size = new Size(103, 40);
             btnBrowser.TabIndex = 1;
             btnBrowser.Text = "Browser";
             btnBrowser.UseVisualStyleBackColor = false;
@@ -61,30 +60,26 @@ namespace EOLChecker
             txtBrowser.BackColor = Color.FromArgb(190, 217, 217);
             txtBrowser.BorderStyle = BorderStyle.None;
             txtBrowser.ForeColor = Color.Red;
-            txtBrowser.Location = new Point(3, 2);
-            txtBrowser.Margin = new Padding(3, 2, 3, 2);
+            txtBrowser.Location = new Point(3, 3);
             txtBrowser.Multiline = true;
             txtBrowser.Name = "txtBrowser";
-            txtBrowser.Size = new Size(599, 30);
+            txtBrowser.Size = new Size(689, 40);
             txtBrowser.TabIndex = 2;
             txtBrowser.Text = "Please select the directory for inspection!!!";
-            txtBrowser.Enter += txtBrowser_Enter;
-            txtBrowser.Leave += txtBrowser_Leave;
+            txtBrowser.Enter += TxtBrowser_Enter;
+            txtBrowser.Leave += TxtBrowser_Leave;
             // 
-            // rtxtResult
+            // tableLayoutPanel
             // 
-            rtxtResult.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            rtxtResult.BackColor = Color.FromArgb(190, 217, 217);
-            rtxtResult.BorderStyle = BorderStyle.None;
-            rtxtResult.ForeColor = Color.FromArgb(161, 204, 209);
-            rtxtResult.Location = new Point(3, 34);
-            rtxtResult.Margin = new Padding(3, 2, 3, 2);
-            rtxtResult.Name = "rtxtResult";
-            rtxtResult.ReadOnly = true;
-            rtxtResult.ScrollBars = RichTextBoxScrollBars.Vertical;
-            rtxtResult.Size = new Size(599, 300);
-            rtxtResult.TabIndex = 4;
-            rtxtResult.Text = "";
+            tableLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            tableLayoutPanel.AutoScroll = true;
+            tableLayoutPanel.BackColor = Color.FromArgb(190, 217, 217);
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel.ForeColor = Color.FromArgb(161, 204, 209);
+            tableLayoutPanel.Location = new Point(3, 45);
+            tableLayoutPanel.Name = "tableLayoutPanel";
+            tableLayoutPanel.Size = new Size(689, 400);
+            tableLayoutPanel.TabIndex = 6;
             // 
             // btnStartCheck
             // 
@@ -94,10 +89,9 @@ namespace EOLChecker
             btnStartCheck.FlatStyle = FlatStyle.Flat;
             btnStartCheck.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnStartCheck.ForeColor = Color.Black;
-            btnStartCheck.Location = new Point(607, 289);
-            btnStartCheck.Margin = new Padding(3, 2, 3, 2);
+            btnStartCheck.Location = new Point(694, 385);
             btnStartCheck.Name = "btnStartCheck";
-            btnStartCheck.Size = new Size(88, 45);
+            btnStartCheck.Size = new Size(103, 60);
             btnStartCheck.TabIndex = 3;
             btnStartCheck.Text = "Check";
             btnStartCheck.UseVisualStyleBackColor = false;
@@ -111,43 +105,40 @@ namespace EOLChecker
             ckEOLOption.ForeColor = Color.Black;
             ckEOLOption.FormattingEnabled = true;
             ckEOLOption.Items.AddRange(new object[] { LineEnding.CRLF, LineEnding.CR, LineEnding.LF });
-            ckEOLOption.Location = new Point(607, 34);
-            ckEOLOption.Margin = new Padding(3, 2, 3, 2);
+            ckEOLOption.Location = new Point(694, 45);
             ckEOLOption.Name = "ckEOLOption";
-            ckEOLOption.Size = new Size(88, 54);
+            ckEOLOption.Size = new Size(103, 66);
             ckEOLOption.TabIndex = 4;
             // 
             // btnReplace
             // 
-            btnReplace.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnReplace.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnReplace.BackColor = Color.FromArgb(137, 190, 179);
             btnReplace.FlatAppearance.BorderColor = Color.FromArgb(137, 190, 179);
             btnReplace.FlatStyle = FlatStyle.Flat;
             btnReplace.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnReplace.ForeColor = Color.Black;
-            btnReplace.Location = new Point(607, 254);
-            btnReplace.Margin = new Padding(3, 2, 3, 2);
+            btnReplace.Location = new Point(694, 339);
             btnReplace.Name = "btnReplace";
-            btnReplace.Size = new Size(88, 30);
+            btnReplace.Size = new Size(103, 40);
             btnReplace.TabIndex = 5;
             btnReplace.Text = "Replace";
             btnReplace.UseVisualStyleBackColor = false;
             btnReplace.Visible = false;
-            btnReplace.Click += btnReplace_Click;
+            btnReplace.Click += BtnReplace_Click;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 245, 255);
-            ClientSize = new Size(700, 337);
+            ClientSize = new Size(800, 449);
             Controls.Add(btnReplace);
             Controls.Add(ckEOLOption);
             Controls.Add(btnStartCheck);
-            Controls.Add(rtxtResult);
+            Controls.Add(tableLayoutPanel);
             Controls.Add(txtBrowser);
             Controls.Add(btnBrowser);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "EOL Checker";
             ResumeLayout(false);
@@ -158,7 +149,8 @@ namespace EOLChecker
 
         private Button btnBrowser;
         private TextBox txtBrowser;
-        private RichTextBox rtxtResult;
+        //private RichTextBox rtxtResult;
+        private TableLayoutPanel tableLayoutPanel;
         private Button btnStartCheck;
         private CheckedListBox ckEOLOption;
         private Button btnReplace;

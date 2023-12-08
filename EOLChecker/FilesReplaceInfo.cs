@@ -4,9 +4,12 @@
 
     public List<int> ArrayReplaceIndex { get; set; }
 
-    public FilesReplaceInfo(string filePathReplace,  List<int> arrayNumbers)
+    public List<int> ArrayLineCode { get; set; }
+
+    public FilesReplaceInfo(string filePathReplace,  List<int> arrayNumbers, List<int> arrayLineCode)
     {
         FilePathReplace = filePathReplace;
         ArrayReplaceIndex = arrayNumbers;
+        ArrayLineCode = arrayLineCode;
     }
 }

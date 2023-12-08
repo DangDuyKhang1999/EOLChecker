@@ -5,15 +5,9 @@ namespace EOLChecker
 {
     internal class EOLChecker
     {
-        private readonly List<FilesInfo> FilesInfoList = new();
         private readonly List<FilesReplaceInfo> FilesReplaceInfoList = new();
         public LineEnding LineEnding { get; set; }
         public TextBox TxtBrowser { get; set; }
-
-        public List<FilesInfo> GetFilesInfoList()
-        {
-            return FilesInfoList;
-        }
 
         public List<FilesReplaceInfo> GetFilesReplaceInfoList()
         {
@@ -35,11 +29,10 @@ namespace EOLChecker
                 List<int> ArrLines = new();
                 List<int> ArrReplaceLines = new();
                 bool iResultCheckFile = AllLinesEndWithLF(file, ArrLines, ArrReplaceLines);
-                FilesInfoList.Add(new FilesInfo(file, iResultCheckFile, ArrLines));
                 iResult = true;
                 if (iResultCheckFile)
                 {
-                    FilesReplaceInfoList.Add(new FilesReplaceInfo(file, ArrReplaceLines));
+                    FilesReplaceInfoList.Add(new FilesReplaceInfo(file, ArrReplaceLines, ArrLines));
                 }
                 else
                 {
@@ -55,45 +48,6 @@ namespace EOLChecker
 
             return iResult;
         }
-
-
-        public bool PrintFilesName(RichTextBox rtxtResult)
-        {
-            Font fontPath = new Font(rtxtResult.Font, FontStyle.Bold);
-            Font fontLine = new Font(rtxtResult.Font, FontStyle.Italic); // Thay đổi FontStyle nếu cần
-
-            bool bResult = false;
-            foreach (var fileInfo in FilesInfoList)
-            {
-                if (fileInfo.BIsPass)
-                {
-                    string linecode = "";
-                    foreach (int line in fileInfo.ArrLines)
-                    {
-                        linecode += "   line: " + line + Environment.NewLine;
-                        bResult = true;
-                    }
-
-                    // Sử dụng fontPath cho fileInfo.StrFilePath
-                    rtxtResult.SelectionStart = rtxtResult.TextLength;
-                    rtxtResult.SelectionColor = Color.FromArgb(162, 87, 114);
-                    rtxtResult.SelectionLength = 0;
-                    rtxtResult.SelectionFont = fontPath;
-                    rtxtResult.SelectedText = fileInfo.StrFilePath + Environment.NewLine;
-
-                    // Sử dụng fontLine cho linecode
-                    rtxtResult.SelectionStart = rtxtResult.TextLength;
-                    rtxtResult.SelectionColor = Color.Black;
-                    rtxtResult.SelectionLength = 0;
-                    rtxtResult.SelectionFont = fontLine;
-                    rtxtResult.SelectedText = linecode;
-                }
-            }
-            fontPath.Dispose();
-            fontLine.Dispose();
-            return bResult;
-        }
-
 
         public bool AllLinesEndWithLF(string filePath, List<int> ArrLines, List<int> ArrReplaceLines)
         {
@@ -146,11 +100,10 @@ namespace EOLChecker
                     break;
 
                 case LineEnding.CR: //CR (\r) = 13
-                    string content = String.Empty;
                     int lastindex = -99;
                     using (StreamReader readerLength = new(filePath, Encoding.GetEncoding(932)))
                     {
-                        content = readerLength.ReadToEnd();
+                        string content = readerLength.ReadToEnd();
                         lastindex = content.Length;
                     }
                     using (StreamReader reader = new(filePath, Encoding.GetEncoding(932)))
@@ -259,7 +212,7 @@ namespace EOLChecker
             return bResult;
         }
 
-        public bool ReplaceLineEnding(FilesReplaceInfo filesReplaceInfo, LineEnding lineEndingBefore, LineEnding lineEndingAter)
+        public static bool ReplaceLineEnding(FilesReplaceInfo filesReplaceInfo, LineEnding lineEndingBefore, LineEnding lineEndingAter)
         {
             bool bResult = false;
             switch (lineEndingBefore)
@@ -305,7 +258,7 @@ namespace EOLChecker
                 string content;
 
                 // Sử dụng StreamReader để đọc từ tệp tin
-                using (StreamReader reader = new StreamReader(filePath))
+                using (StreamReader reader = new(filePath))
                 {
                     content = reader.ReadToEnd();
                 }
@@ -323,11 +276,9 @@ namespace EOLChecker
                 }
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(932))) // Mở tệp tin để ghi (overwrite)
-                {
-                    writer.Write(new string(contentArray));
-                    bResult = true;
-                }
+                using StreamWriter writer = new(filePath, false, Encoding.GetEncoding(932)); // Mở tệp tin để ghi (overwrite)
+                writer.Write(new string(contentArray));
+                bResult = true;
             }
             catch (Exception ex)
             {
@@ -342,7 +293,7 @@ namespace EOLChecker
             {
                 string content;
                 // Sử dụng StreamReader để đọc từ tệp tin
-                using (StreamReader reader = new StreamReader(filePath, Encoding.GetEncoding(932)))
+                using (StreamReader reader = new (filePath, Encoding.GetEncoding(932)))
                 {
                     content = reader.ReadToEnd();
                 }
@@ -365,11 +316,9 @@ namespace EOLChecker
                 Array.Copy(contentArray, indexToRemove + numberOfElementsToRemove, newArray, indexToRemove, contentArray.Length - indexToRemove - numberOfElementsToRemove);
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(932))) // Mở tệp tin để ghi (overwrite)
-                {
-                    writer.Write(new string(newArray));
-                    bResult = true;
-                }
+                using StreamWriter writer = new (filePath, false, Encoding.GetEncoding(932)); // Mở tệp tin để ghi (overwrite)
+                writer.Write(new string(newArray));
+                bResult = true;
             }
             catch (Exception ex)
             {
@@ -391,12 +340,12 @@ namespace EOLChecker
             { 
                 charToAdd = '\r';
             }
-            replacePosition = replacePosition + indexReplaceToCRLF;
+            replacePosition += indexReplaceToCRLF;
             try
             {
                 string content;
                 // Sử dụng StreamReader để đọc từ tệp tin
-                using (StreamReader reader = new StreamReader(filePath, Encoding.GetEncoding(932)))
+                using (StreamReader reader = new (filePath, Encoding.GetEncoding(932)))
                 {
                     content = reader.ReadToEnd();
                 }
@@ -419,11 +368,9 @@ namespace EOLChecker
 
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(932))) // Mở tệp tin để ghi (overwrite)
-                {
-                    writer.Write(new string(newArray));
-                    bResult = true;
-                }
+                using StreamWriter writer = new (filePath, false, Encoding.GetEncoding(932)); // Mở tệp tin để ghi (overwrite)
+                writer.Write(new string(newArray));
+                bResult = true;
             }
             catch (Exception ex)
             {
@@ -433,18 +380,13 @@ namespace EOLChecker
         }
         static string TranslateLineEnding(LineEnding lineEnding)
         {
-            switch (lineEnding)
+            return lineEnding switch
             {
-                case LineEnding.CRLF:
-                    return "\r\n"; // Carriage Return + Line Feed (Windows)
-                case LineEnding.CR:
-                    return "\r";   // Carriage Return (Mac)
-                case LineEnding.LF:
-                    return "\n";   // Line Feed (Unix/Linux)
-                case LineEnding.None:
-                default:
-                    return string.Empty;
-            }
+                LineEnding.CRLF => "\r\n",// Carriage Return + Line Feed (Windows)
+                LineEnding.CR => "\r",// Carriage Return (Mac)
+                LineEnding.LF => "\n",// Line Feed (Unix/Linux)
+                _ => string.Empty,
+            };
         }
 
     }
