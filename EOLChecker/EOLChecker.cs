@@ -81,7 +81,6 @@ namespace EOLChecker
                             }
                             else if (bPreviousIsCR == false && currentChar == LF)
                             {
-                                bPreviousIsCR = false;
                                 lineCount++;
                             }
                             else if (currentChar == -1)
@@ -92,6 +91,10 @@ namespace EOLChecker
                             if (currentChar == CR)
                             {
                                 bPreviousIsCR = true;
+                            }
+                            else
+                            {
+                                bPreviousIsCR = false;
                             }
                             previousChar = currentChar;
                             index++;
@@ -146,6 +149,10 @@ namespace EOLChecker
                             {
                                 bPreviousIsCR = true;
                             }
+                            else
+                            {
+                                bPreviousIsCR = false;
+                            }
                             if (index == lastindex - 1 && currentChar == CR)
                             {
                                 lineCount++;
@@ -199,6 +206,10 @@ namespace EOLChecker
                             if (currentChar == CR)
                             {
                                 bPreviousIsCR = true;
+                            }
+                            else
+                            {
+                                bPreviousIsCR = false;
                             }
                             previousChar = currentChar;
                             index++;

@@ -118,7 +118,7 @@ namespace EOLChecker
             btnReplace.FlatStyle = FlatStyle.Flat;
             btnReplace.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnReplace.ForeColor = Color.Black;
-            btnReplace.Location = new Point(694, 339);
+            btnReplace.Location = new Point(694, 343);
             btnReplace.Name = "btnReplace";
             btnReplace.Size = new Size(103, 40);
             btnReplace.TabIndex = 5;

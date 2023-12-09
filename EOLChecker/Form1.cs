@@ -54,7 +54,7 @@ namespace EOLChecker
 
                         if (rtb != null && button != null)
                         {
-                            int newRtbWidth = panel.Width - button.Width - 13;
+                            int newRtbWidth = panel.Width - button.Width - 12;
 
                             if (newRtbWidth > 0)
                             {
@@ -213,23 +213,31 @@ namespace EOLChecker
             bool bIsResult = false;
             List<FilesReplaceInfo> filesReplaceInfos = eolChecker.GetFilesReplaceInfoList();
             int i = 0;
-
-            // Xóa tất cả các RowStyles hiện tại
             tableLayoutPanel.RowStyles.Clear();
 
-            // Xóa tất cả các hàng hiện tại
             tableLayoutPanel.Controls.Clear();
 
             if (filesReplaceInfos.Count != 0)
             {
+                int rtItemWidth = 0;
+                if (filesReplaceInfos.Count < 6)
+                {
+                    rtItemWidth = tableLayoutPanel.ClientSize.Width - 88;
+                }
+                else
+                {
+                    rtItemWidth = tableLayoutPanel.ClientSize.Width - 106;
+                }
+
                 bIsResult = true;
+                
                 foreach (FilesReplaceInfo filesReplaceInfo in filesReplaceInfos)
                 {
                     TableLayoutPanel itemPanel = new()
                     {
-                        Size = new Size(tableLayoutPanel.Width, 60),
+                        Size = new Size(tableLayoutPanel.ClientSize.Width, 60),
                         ColumnCount = 2,
-                        Dock = DockStyle.Fill
+                        BackColor = Color.FromArgb(140, 194, 183)
                     };
 
 
@@ -242,7 +250,7 @@ namespace EOLChecker
 
                     RichTextBox rtItem = new()
                     {
-                        Size = new Size(580, 50),
+                        Size = new Size(rtItemWidth, 54),
                         Location = new Point(0, 0),
                         BorderStyle = BorderStyle.None
                     };
@@ -268,7 +276,7 @@ namespace EOLChecker
                     Button button = new()
                     {
                         Text = "Open" + Environment.NewLine + "Folder",
-                        Size = new Size(70, 50),
+                        Size = new Size(70, 54),
                         Location = new Point(599, 0),
                         TextAlign = ContentAlignment.MiddleCenter,
                         ForeColor = Color.Black,
@@ -293,7 +301,10 @@ namespace EOLChecker
 
                     tableLayoutPanel.Controls.Add(itemPanel, 0, i);
                     i++;
+                    fontPath.Dispose();
+                    fontLine.Dispose();
                 }
+
             }
             return bIsResult;
         }
