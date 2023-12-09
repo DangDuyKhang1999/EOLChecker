@@ -79,6 +79,10 @@ namespace EOLChecker
                             {
                                 lineCount++;
                             }
+                            else if (currentChar != LF && bPreviousIsCR)
+                            {
+                                lineCount++;
+                            }
                             else if (bPreviousIsCR == false && currentChar == LF)
                             {
                                 lineCount++;
