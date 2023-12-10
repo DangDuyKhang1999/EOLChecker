@@ -24,7 +24,28 @@ namespace EOLChecker
             bool iResult = false;
 
             // Check source files in the current directory
-            foreach (var file in Directory.GetFiles(directoryPath, "*.h").Concat(Directory.GetFiles(directoryPath, "*.cpp").Concat(Directory.GetFiles(directoryPath, "*.cs"))))
+            foreach (var file in Directory.GetFiles(directoryPath, "*.h") //Header C++
+                                             .Concat(Directory.GetFiles(directoryPath, "*.cpp"))   // C++
+                                             .Concat(Directory.GetFiles(directoryPath, "*.c"))     // C
+                                             .Concat(Directory.GetFiles(directoryPath, "*.cs"))    //C#
+                                             .Concat(Directory.GetFiles(directoryPath, "*.java"))  //Java
+                                             .Concat(Directory.GetFiles(directoryPath, "*.py"))    // Python
+                                             .Concat(Directory.GetFiles(directoryPath, "*.rb"))    // Ruby
+                                             .Concat(Directory.GetFiles(directoryPath, "*.php"))   // PHP
+                                             .Concat(Directory.GetFiles(directoryPath, "*.swift")) // Swift
+                                             .Concat(Directory.GetFiles(directoryPath, "*.go"))    // Go
+                                             .Concat(Directory.GetFiles(directoryPath, "*.ts"))    // TypeScript
+                                             .Concat(Directory.GetFiles(directoryPath, "*.kt"))    // Kotlin
+                                             .Concat(Directory.GetFiles(directoryPath, "*.scala")) // Scala
+                                             .Concat(Directory.GetFiles(directoryPath, "*.pl"))    // Perl
+                                             .Concat(Directory.GetFiles(directoryPath, "*.lua"))   // Lua
+                                             .Concat(Directory.GetFiles(directoryPath, "*.dart"))  // Dart (Flutter)
+                                             .Concat(Directory.GetFiles(directoryPath, "*.js"))    // JavaScript (React Native)
+                                             .Concat(Directory.GetFiles(directoryPath, "*.jsx"))   // JSX (React Native)
+                                             .Concat(Directory.GetFiles(directoryPath, "*.m"))     //MATLAB
+                                             .Concat(Directory.GetFiles(directoryPath, "*.csv"))   //CSV
+                                             .Concat(Directory.GetFiles(directoryPath, "*.txt"))   //text
+                                             )
             {
                 List<int> ArrLines = new();
                 List<int> ArrReplaceLines = new();
@@ -308,7 +329,7 @@ namespace EOLChecker
             {
                 string content;
                 // Sử dụng StreamReader để đọc từ tệp tin
-                using (StreamReader reader = new (filePath, Encoding.GetEncoding(932)))
+                using (StreamReader reader = new(filePath, Encoding.GetEncoding(932)))
                 {
                     content = reader.ReadToEnd();
                 }
@@ -331,7 +352,7 @@ namespace EOLChecker
                 Array.Copy(contentArray, indexToRemove + numberOfElementsToRemove, newArray, indexToRemove, contentArray.Length - indexToRemove - numberOfElementsToRemove);
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using StreamWriter writer = new (filePath, false, Encoding.GetEncoding(932)); // Mở tệp tin để ghi (overwrite)
+                using StreamWriter writer = new(filePath, false, Encoding.GetEncoding(932)); // Mở tệp tin để ghi (overwrite)
                 writer.Write(new string(newArray));
                 bResult = true;
             }
@@ -344,7 +365,7 @@ namespace EOLChecker
         static bool ConvertLineEndingToCRLF(string filePath, LineEnding lineEndingBefore, int replacePosition)
         {
             bool bResult = false;
-            int indexReplaceToCRLF = 0 ;
+            int indexReplaceToCRLF = 0;
             char charToAdd;
             if (lineEndingBefore == LineEnding.CR)
             {
@@ -352,7 +373,7 @@ namespace EOLChecker
                 charToAdd = '\n';
             }
             else
-            { 
+            {
                 charToAdd = '\r';
             }
             replacePosition += indexReplaceToCRLF;
@@ -360,7 +381,7 @@ namespace EOLChecker
             {
                 string content;
                 // Sử dụng StreamReader để đọc từ tệp tin
-                using (StreamReader reader = new (filePath, Encoding.GetEncoding(932)))
+                using (StreamReader reader = new(filePath, Encoding.GetEncoding(932)))
                 {
                     content = reader.ReadToEnd();
                 }
@@ -383,7 +404,7 @@ namespace EOLChecker
 
 
                 // Sử dụng StreamWriter để ghi nội dung mới vào tệp tin
-                using StreamWriter writer = new (filePath, false, Encoding.GetEncoding(932)); // Mở tệp tin để ghi (overwrite)
+                using StreamWriter writer = new(filePath, false, Encoding.GetEncoding(932)); // Mở tệp tin để ghi (overwrite)
                 writer.Write(new string(newArray));
                 bResult = true;
             }
