@@ -122,7 +122,7 @@ namespace EOLChecker
                     if (!InitializeTableLayoutResult())
                     {
                         btnReplace.Visible = false;
-                        MessageBox.Show("Could not find line ending with " + eolChecker.LineEnding.ToString(), "Error!!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Could not find line ending with " + eolChecker.LineEnding.ToString(), "Information!!!", MessageBoxButtons.OK, MessageBoxIcon.Information); 
                         btnBrowser.Focus();
                     }
                     else
