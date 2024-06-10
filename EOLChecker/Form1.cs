@@ -41,7 +41,6 @@ namespace EOLChecker
                 tableLayoutPanel.Width = newWidth;
                 tableLayoutPanel.Height = newHeight;
 
-                btnStartCheck.Height = this.ClientRectangle.Height - btnStartCheck.Location.Y - 3;
 
                 foreach (Control control in tableLayoutPanel.Controls)
                 {
