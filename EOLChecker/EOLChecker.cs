@@ -225,7 +225,7 @@ namespace EOLChecker
                             }
                             else if (currentChar == -1)
                             {
-                                // Kết thúc nếu đọc hết tệp tin
+                                // End if file is finished reading
                                 break;
                             }
                             if (currentChar == CR)
