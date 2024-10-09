@@ -293,7 +293,7 @@ namespace EOLChecker
             {
                 string content;
 
-                // Sử dụng StreamReader để đọc từ tệp tin
+                // Reading file
                 using (StreamReader reader = new(filePath))
                 {
                     content = reader.ReadToEnd();
